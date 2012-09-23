@@ -114,6 +114,7 @@ class AutomataGUI:
         self.displayAutomata()
 
     def handleTestStringButton(self):
+        t = time.time()
         inp = self.testVar.get().replace(' ','')
         if inp == '':
             inp = [':e:']
@@ -121,6 +122,7 @@ class AutomataGUI:
             self.statusLabel.config(text="Accepts :)")
         else:
             self.statusLabel.config(text="Does not accept :|")
+        self.timingLabel.configure(text="Operation completed in " + "%.4f" % (time.time() - t) + " seconds")
 
     def handlenfaButton(self):
         self.selectedButton = 0
