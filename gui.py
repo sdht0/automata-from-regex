@@ -1,43 +1,43 @@
-from Tkinter import *
-import Image, ImageTk, tkFont
+try:
+    from Tkinter import *
+    import tkFont
+except ImportError as err:
+    print ("error: %s. Tkinter library is required for using the GUI.") % err.message
+    sys.exit(1)
+
 from AutomataTheory import *
 
-def which(program):
-    import os
-    def is_exe(fpath):
-        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
-
-    fpath, fname = os.path.split(program)
-    if fpath:
-        if is_exe(program):
-            return program
-    else:
-        for path in os.environ["PATH"].split(os.pathsep):
-            exe_file = os.path.join(path, program)
-            if is_exe(exe_file):
-                return exe_file
-
-    return False
+dotFound = isInstalled("dot")
+if dotFound:
+    try:
+        import Image, ImageTk
+    except ImportError as err:
+        print ("Notice: %s. The PIL library is required for displaying the graphs.") % err.message
+        dotFound = False
+else:
+    print "Notice: The GraphViz software is required for displaying the graphs."
 
 class AutomataGUI:
 
-    def __init__(self, root):
+    def __init__(self, root, dotFound):
         self.root = root
         self.initUI()
         self.selectedButton = 0
-        self.dotFound = which("dot") !=False
+        self.dotFound = dotFound
         startRegex = "0+1*0"
         self.regexVar.set(startRegex)
         self.handleBuildRegexButton()
 
     def initUI(self):
         self.root.title("Automata From Regular Expressions")
-        ScreenSizeX = self.root.winfo_screenwidth()  # Get screen width [pixels]
-        ScreenSizeY = self.root.winfo_screenheight() # Get screen height [pixels]
-        ScreenRatio = 0.7                              # Set the screen ratio for width and height
-        self.FrameSizeX  = int(ScreenSizeX * ScreenRatio)
-        self.FrameSizeY  = int(ScreenSizeY * ScreenRatio)
-        FramePosX   = (ScreenSizeX - self.FrameSizeX)/2 # Find left and up border of window
+        ScreenSizeX = self.root.winfo_screenwidth()
+        ScreenSizeY = self.root.winfo_screenheight()
+        ScreenRatioX = 0.7
+        ScreenRatioY = 0.8
+        self.FrameSizeX  = int(ScreenSizeX * ScreenRatioX)
+        self.FrameSizeY  = int(ScreenSizeY * ScreenRatioY)
+        print self.FrameSizeY, self.FrameSizeX
+        FramePosX   = (ScreenSizeX - self.FrameSizeX)/2
         FramePosY   = (ScreenSizeY - self.FrameSizeY)/2
         padX = 10
         padY = 10
@@ -45,7 +45,7 @@ class AutomataGUI:
         self.root.resizable(width=False, height=False)
 
         parentFrame = Frame(self.root, width = int(self.FrameSizeX - 2*padX), height = int(self.FrameSizeY - 2*padY))
-        parentFrame.grid(padx=padX, pady=padY)
+        parentFrame.grid(padx=padX, pady=padY, stick=E+W+N+S)
 
         regexFrame = Frame(parentFrame)
         enterRegexLabel = Label(regexFrame, text="Enter regular expression [operators allowed are plus (+), dot (.) and star (*)]:")
@@ -96,7 +96,7 @@ class AutomataGUI:
         regexFrame.grid(row=0, column=0, sticky=W, padx=(50,0))
         testStringFrame.grid(row=1, column=0, sticky=W, padx=(50,0))
         self.statusLabel.grid(row=2, column=0, sticky=W, padx=(50,0))
-        buttonGroup.grid(row=3, column=0, sticky=E)
+        buttonGroup.grid(row=3, column=0)
         automataCanvasFrame.grid(row=4, column=0, sticky=E+W+N+S)
         self.bottomLabel.grid(row=5, column=0, sticky=W, pady=10)
 
@@ -135,7 +135,7 @@ class AutomataGUI:
         self.displayAutomata()
 
     def createAutomata(self, inp):
-        print inp
+        print "Regex: ", inp
         nfaObj = NFAfromRegex(inp)
         self.nfa = nfaObj.getNFA()
         self.dfaObj = DFAfromNFA(self.nfa)
@@ -201,10 +201,10 @@ class AutomataGUI:
             totalwidth = self.cwidth
         self.automataCanvas.config(scrollregion=(0,0,totalwidth,totalheight))
 
-
 def main():
+    global dotFound
     root = Tk()
-    app = AutomataGUI(root)
+    app = AutomataGUI(root, dotFound)
     root.mainloop()
 
 if __name__ == '__main__':

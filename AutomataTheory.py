@@ -131,7 +131,7 @@ class Automata:
         return dotFile
 
 class BuildAutomata:
-    """class for building e-nfa from regular expressions"""
+    """class for building e-nfa basic structures"""
 
     @staticmethod
     def basicstruct(inp):
@@ -191,6 +191,7 @@ class BuildAutomata:
 
 
 class DFAfromNFA:
+    """class for building dfa from e-nfa and minimise it"""
 
     def __init__(self, nfa):
         self.buildDFA(nfa)
@@ -326,6 +327,7 @@ class DFAfromNFA:
             self.minDFA = self.dfa.newBuildFromEquivalentStates(equivalent, pos)
 
 class NFAfromRegex:
+    """class for building e-nfa from regular expressions"""
 
     def __init__(self, regex):
         self.star = '*'
@@ -435,6 +437,7 @@ class NFAfromRegex:
                 self.automata.append(BuildAutomata.dotstruct(b,a))
 
 def drawGraph(automata, file = ""):
+    """From https://github.com/max99x/automata-editor/blob/master/util.py"""
     f = popen(r"dot -Tpng -o graph%s.png" % file, 'w')
     try:
         f.write(automata.getDotFile())
@@ -442,3 +445,19 @@ def drawGraph(automata, file = ""):
         raise BaseException("Error creating graph")
     finally:
         f.close()
+
+def isInstalled(program):
+    """From http://stackoverflow.com/questions/377017/test-if-executable-exists-in-python"""
+    import os
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+    fpath, fname = os.path.split(program)
+    if fpath:
+        if is_exe(program) or is_exe(program+".exe"):
+            return True
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file) or is_exe(exe_file+".exe"):
+                return True
+    return False
