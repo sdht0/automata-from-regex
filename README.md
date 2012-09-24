@@ -23,6 +23,13 @@ Ubuntu users can install them by running `sudo apt-get install python-imaging-tk
 
 Checkout the included screenshots. The GUI is not the best in the world, but it gets the work done :)
 
+Acknowledgements
+----------------
+* Prof S.K. Saha, for the project idea and concepts of Automata Theory
+* https://github.com/max99x/automata-editor, for general ideas and esp. for showing how to use GraphViz
+* The wonderful community over at http://stackoverflow.com, for helping get past all bottlenecks
+* The very helpful documentation of Tkinter at http://effbot.org/tkinterbook/
+
 [1]: http://en.wikipedia.org/wiki/Nondeterministic_finite_automaton
 [2]: http://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [3]: http://en.wikipedia.org/wiki/DFA_minimization
