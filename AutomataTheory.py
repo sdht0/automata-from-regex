@@ -79,11 +79,12 @@ class Automata:
             print
 
     def getPrintText(self):
-        text = "states: {" + ", ".join(map(str,self.states)) + "}\n"
+        text = "language: {" + ", ".join(self.language) + "}\n"
+        text += "states: {" + ", ".join(map(str,self.states)) + "}\n"
         text += "start state: " + str(self.startstate) + "\n"
         text += "final states: {" + ", ".join(map(str,self.finalstates)) + "}\n"
         text += "transitions:\n"
-        linecount = 4
+        linecount = 5
         for fromstate, tostates in self.transitions.items():
             for state in tostates:
                 for char in tostates[state]:
@@ -375,7 +376,7 @@ class NFAfromRegex:
                     elif o in self.operators:
                         self.processOperator(o)
             elif char == self.star:
-                if previous in self.operators or previous  == self.openingBracket:
+                if previous in self.operators or previous  == self.openingBracket or previous == self.star:
                     raise BaseException("Error processing '%s' after '%s'" % (char, previous))
                 self.processOperator(char)
             elif char in self.operators:
