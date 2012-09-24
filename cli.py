@@ -3,7 +3,6 @@ import sys
 
 def main():
     inp = "(01*1)*1"
-    print sys.argv
     if len(sys.argv)>1:
         inp = sys.argv[1]
     print "Regular Expression: ", inp
