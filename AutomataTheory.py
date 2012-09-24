@@ -351,26 +351,26 @@ class NFAfromRegex:
 
     def buildNFA(self):
         language = set()
-        stack = []
+        self.stack = []
         self.automata = []
         previous = "::e::"
         for char in self.regex:
             if char in self.alphabet:
                 language.add(char)
                 if previous != self.dot and (previous in self.alphabet or previous in [self.closingBracket,self.star]):
-                    stack.append(self.dot)
+                    self.addOperatorToStack(self.dot)
                 self.automata.append(BuildAutomata.basicstruct(char))
             elif char  ==  self.openingBracket:
                 if previous != self.dot and (previous in self.alphabet or previous in [self.closingBracket,self.star]):
-                    stack.append(self.dot)
-                stack.append(char)
+                    self.addOperatorToStack(self.dot)
+                self.stack.append(char)
             elif char  ==  self.closingBracket:
                 if previous in self.operators:
                     raise BaseException("Error processing '%s' after '%s'" % (char, previous))
                 while(1):
-                    if len(stack) == 0:
+                    if len(self.stack) == 0:
                         raise BaseException("Error processing '%s'. Empty stack" % char)
-                    o = stack.pop()
+                    o = self.stack.pop()
                     if o == self.openingBracket:
                         break
                     elif o in self.operators:
@@ -383,26 +383,12 @@ class NFAfromRegex:
                 if previous in self.operators or previous  == self.openingBracket:
                     raise BaseException("Error processing '%s' after '%s'" % (char, previous))
                 else:
-                    while(1):
-                        if len(stack) == 0:
-                            stack.append(char)
-                            break
-                        top = stack[len(stack)-1]
-                        if top == self.openingBracket:
-                            stack.append(char)
-                            break
-                        pr = self.getPrecedence(top, char)
-                        if pr == 1:
-                            op = stack.pop()
-                            self.processOperator(op)
-                        else:
-                            stack.append(char)
-                            break
+                    self.addOperatorToStack(char)
             else:
                 raise BaseException("Symbol '%s' is not allowed" % char)
             previous = char
-        while len(stack) != 0:
-            op = stack.pop()
+        while len(self.stack) != 0:
+            op = self.stack.pop()
             self.processOperator(op)
         if len(self.automata) > 1:
             print self.automata
@@ -410,16 +396,19 @@ class NFAfromRegex:
         self.nfa = self.automata.pop()
         self.nfa.language = language
 
-    def getPrecedence(self, op1, op2):
-        '''Returns 1 => op1 >= op2
-                   0 => op1 < op2'''
-        if op1 == op2:
-            return 1
-        elif op1 == self.dot:
-            return 1
-        elif op1 == self.plus:
-            return 0
-        raise BaseException("One or both of operators '%s', '%s' not recognized" % (op1, op2))
+    def addOperatorToStack(self, char):
+        while(1):
+            if len(self.stack) == 0:
+                break
+            top = self.stack[len(self.stack)-1]
+            if top == self.openingBracket:
+                break
+            if top == char or top == self.dot:
+                op = self.stack.pop()
+                self.processOperator(op)
+            else:
+                break
+        self.stack.append(char)
 
     def processOperator(self, operator):
         if len(self.automata) == 0:

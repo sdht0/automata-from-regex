@@ -1,10 +1,11 @@
 Automata From Regular Expressions
-================================
-Version: 0.5.1
---------------
-License: GPLv3
---------------
+=================================
+License
+-------
+GNU GPLv3
 
+Overview and Usage
+------------------
 This is a python program to contruct [e-NFA][1], [DFA][2], and [minimised DFA][3] from a given [regular expression][4], built as a class project for Formal Language and Automata Theory.
 
 It requires the python programming language: Python 2.7 (http://python.org/download/)
