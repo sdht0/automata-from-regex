@@ -22,6 +22,7 @@ def main():
         drawGraph(nfa, "nfa")
         drawGraph(minDFA, "mdfa")
         print "\nGraphs have been created in the code directory"
+        print minDFA.getDotFile()
 
 if __name__  ==  '__main__':
     t = time.time()
