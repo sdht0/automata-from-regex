@@ -1,8 +1,5 @@
 Automata From Regular Expressions
 =================================
-License
--------
-GNU GPLv3
 
 Overview and Usage
 ------------------
@@ -35,3 +32,7 @@ Acknowledgements
 [2]: http://en.wikipedia.org/wiki/Deterministic_finite_automaton
 [3]: http://en.wikipedia.org/wiki/DFA_minimization
 [4]: http://en.wikipedia.org/wiki/Regular_expression
+
+License
+-------
+GNU GPLv3
