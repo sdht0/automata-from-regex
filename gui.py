@@ -1,6 +1,8 @@
+import sys
+
 try:
-    from Tkinter import *
-    import tkFont
+    from tkinter import *
+    from tkinter import font as tkFont
 except ImportError as err:
     print("error: %s. Tkinter library is required for using the GUI." % err.message)
     sys.exit(1)
@@ -10,7 +12,7 @@ from AutomataTheory import *
 dotFound = isInstalled("dot")
 if dotFound:
     try:
-        import Image, ImageTk
+        from PIL import Image, ImageTk
     except ImportError as err:
         print("Notice: %s. The PIL library is required for displaying the graphs." % err.message)
         dotFound = False
