@@ -39,8 +39,8 @@ class AutomataGUI:
         self.FrameSizeX  = int(ScreenSizeX * ScreenRatioX)
         self.FrameSizeY  = int(ScreenSizeY * ScreenRatioY)
         print(self.FrameSizeY, self.FrameSizeX)
-        FramePosX   = (ScreenSizeX - self.FrameSizeX)/2
-        FramePosY   = (ScreenSizeY - self.FrameSizeY)/2
+        FramePosX = int((ScreenSizeX - self.FrameSizeX)/2)
+        FramePosY = int((ScreenSizeY - self.FrameSizeY)/2)
         padX = 10
         padY = 10
         self.root.geometry("%sx%s+%s+%s" % (self.FrameSizeX,self.FrameSizeY,FramePosX,FramePosY))
