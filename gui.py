@@ -1,8 +1,10 @@
+import sys
+
 try:
-    from Tkinter import *
-    import tkFont
+    from tkinter import *
+    from tkinter import font as tkFont
 except ImportError as err:
-    print ("error: %s. Tkinter library is required for using the GUI.") % err.message
+    print("error: %s. Tkinter library is required for using the GUI." % err.message)
     sys.exit(1)
 
 from AutomataTheory import *
@@ -10,12 +12,12 @@ from AutomataTheory import *
 dotFound = isInstalled("dot")
 if dotFound:
     try:
-        import Image, ImageTk
+        from PIL import Image, ImageTk
     except ImportError as err:
-        print ("Notice: %s. The PIL library is required for displaying the graphs.") % err.message
+        print("Notice: %s. The PIL library is required for displaying the graphs." % err.message)
         dotFound = False
 else:
-    print "Notice: The GraphViz software is required for displaying the graphs."
+    print("Notice: The GraphViz software is required for displaying the graphs.")
 
 class AutomataGUI:
 
@@ -36,7 +38,7 @@ class AutomataGUI:
         ScreenRatioY = 0.8
         self.FrameSizeX  = int(ScreenSizeX * ScreenRatioX)
         self.FrameSizeY  = int(ScreenSizeY * ScreenRatioY)
-        print self.FrameSizeY, self.FrameSizeX
+        print(self.FrameSizeY, self.FrameSizeX)
         FramePosX   = (ScreenSizeX - self.FrameSizeX)/2
         FramePosY   = (ScreenSizeY - self.FrameSizeY)/2
         padX = 10
@@ -137,7 +139,7 @@ class AutomataGUI:
         self.displayAutomata()
 
     def createAutomata(self, inp):
-        print "Regex: ", inp
+        print("Regex: ", inp)
         nfaObj = NFAfromRegex(inp)
         self.nfa = nfaObj.getNFA()
         self.dfaObj = DFAfromNFA(self.nfa)

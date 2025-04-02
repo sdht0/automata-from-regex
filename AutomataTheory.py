@@ -68,15 +68,15 @@ class Automata:
         return allstates
 
     def display(self):
-        print "states:", self.states
-        print "start state: ", self.startstate
-        print "final states:", self.finalstates
-        print "transitions:"
+        print("states:", self.states)
+        print("start state: ", self.startstate)
+        print("final states:", self.finalstates)
+        print("transitions:")
         for fromstate, tostates in self.transitions.items():
             for state in tostates:
                 for char in tostates[state]:
-                    print "  ",fromstate, "->", state, "on '"+char+"'",
-            print
+                    print("  ", fromstate, "->", state, "on '" + char + "'", end="")
+            print()
 
     def getPrintText(self):
         text = "language: {" + ", ".join(self.language) + "}\n"
@@ -236,9 +236,9 @@ class DFAfromNFA:
                         toindex = count
                         count +=  1
                     else:
-                        toindex = [k for k, v in allstates.iteritems() if v  ==  trstates][0]
+                        toindex = [k for k, v in allstates.items() if v  ==  trstates][0]
                     dfa.addtransition(fromindex, toindex, char)
-        for value, state in allstates.iteritems():
+        for value, state in allstates.items():
             if nfa.finalstates[0] in state:
                 dfa.addfinalstates(value)
         self.dfa = dfa
@@ -391,7 +391,7 @@ class NFAfromRegex:
             op = self.stack.pop()
             self.processOperator(op)
         if len(self.automata) > 1:
-            print self.automata
+            print(self.automata)
             raise BaseException("Regex could not be parsed successfully")
         self.nfa = self.automata.pop()
         self.nfa.language = language
